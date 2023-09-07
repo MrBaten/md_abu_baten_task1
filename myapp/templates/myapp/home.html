@@ -1,0 +1,112 @@
+{% extends "myapp/base.html" %}
+{% load static %}
+{% block content %}
+<head>
+    <script>
+        window.onload = function () {
+            var chart = new CanvasJS.Chart("chartContainer", {
+              animationEnabled: true,
+              exportEnabled: true,
+              title:{
+                text: "Multi-series Column Chart"  
+              },  
+              legend: {
+                cursor: "pointer",
+                verticalAlign: "top",
+                itemclick: hideUnhideDataSeries
+              },
+              data: [{
+                        type: "column",
+                name: "DataSeries 1",
+                showInLegend: true,
+                dataPoints: {{ datapoints|safe }}
+              },{
+                        type: "column",
+                name: "DataSeries 2",
+                showInLegend: true,
+                dataPoints: {{ datapoints2|safe }}
+              }]
+            });
+            chart.render();
+     
+            function hideUnhideDataSeries(e) {
+              if (typeof (e.dataSeries.visible) === "undefined" || e.dataSeries.visible) {
+                e.dataSeries.visible = false;
+              } else {
+                e.dataSeries.visible = true;
+              }
+     
+              e.chart.render();
+            }
+        }
+    </script>    
+    <!-- Add your custom CSS styles -->
+    <style>
+        .table-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh; /* Adjust this as needed for vertical centering */
+        }
+
+
+        /* Style the table header */
+        #trade-data-table thead th {
+            background-color: #f2f2f2;
+            font-weight: bold;
+        }
+
+        /* Style the table rows */
+        #trade-data-table tbody tr {
+            background-color: #fff;
+        }
+
+        /* Style alternating rows for better readability */
+        #trade-data-table tbody tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+
+    <div id="chartContainer" style="width: 100%; height: 360px;"></div>
+    <script src="{% static 'myapp/js/canvasjs.min.js' %}"></script>
+
+<h1>Trade Data</h1>
+<table id="trade-data-table" class="display" width="100%">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Trade Code</th>
+            <th>High</th>
+            <th>Low</th>
+            <th>Open</th>
+            <th>Close</th>
+            <th>Volume</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for data in trade_data %}
+        <tr>
+            <td>{{ data.date }}</td>
+            <td>{{ data.trade_code }}</td>
+            <td>{{ data.high }}</td>
+            <td>{{ data.low }}</td>
+            <td>{{ data.open }}</td>
+            <td>{{ data.close }}</td>
+            <td>{{ data.volume }}</td>
+            <td>
+                <a href="{% url 'update' data.pk %}">Edit</a>
+                <a href="{% url 'delete' data.pk %}">Delete</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $('#trade-data-table').DataTable();
+    });
+</script>
+{% endblock %}

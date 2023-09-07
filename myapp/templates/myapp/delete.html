@@ -1,0 +1,31 @@
+{% extends "myapp/base.html" %}
+
+{% block content %}
+<h2>Delete Trade Data</h2>
+<p>Are you sure you want to delete the following trade data?</p>
+<table>
+    <tr>
+        <th>Date</th>
+        <th>Trade Code</th>
+        <th>High</th>
+        <th>Low</th>
+        <th>Open</th>
+        <th>Close</th>
+        <th>Volume</th>
+    </tr>
+    <tr>
+        <td>{{ trade_data.date }}</td>
+        <td>{{ trade_data.trade_code }}</td>
+        <td>{{ trade_data.high }}</td>
+        <td>{{ trade_data.low }}</td>
+        <td>{{ trade_data.open }}</td>
+        <td>{{ trade_data.close }}</td>
+        <td>{{ trade_data.volume }}</td>
+    </tr>
+</table>
+<form method="post">
+    {% csrf_token %}
+    <input type="submit" value="Delete">
+</form>
+<a href="{% url 'home' %}">Cancel</a>
+{% endblock %}
