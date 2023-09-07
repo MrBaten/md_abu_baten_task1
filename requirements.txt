@@ -6,6 +6,7 @@ Django==4.2.4
 django-chartjs==2.3.0
 django-crispy-forms==2.0
 fonttools==4.42.1
+gunicorn==21.2.0
 kiwisolver==1.4.5
 matplotlib==3.7.2
 mysqlclient==2.2.0
