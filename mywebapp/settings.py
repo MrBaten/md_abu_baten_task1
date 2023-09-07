@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
-
+import dj_database_url
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--ftq6u$(4q8t^c@*k88-i&tng*9w4=m=o3)pf6luvda^hjsw1-'
+SECRET_KEY = os.environ.get("SECRET_KEY")
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get("DEBUG","False").lower() == "true"
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
 
 
 # Application definition
@@ -82,9 +82,13 @@ DATABASES = {
         'PASSWORD': 'ABab1212..',
         'HOST': 'localhost',  # Or the hostname of your SQL Server instance
         'PORT': '5432',       # Port number for SQL Server
+        'OPTIONS':{
+            'sslmode' : 'require',
+        },
     }
 }
-
+database_url = os.environ.get("postgres://baten:Gd4lPhDtGnsrYeENXKiSbi53kuOu8TGi@dpg-cjt4sethtt0c73fsip8g-a.oregon-postgres.render.com/stock_db_h2ep")
+DATABASES["default"] = dj_database_url.parse("postgres://baten:Gd4lPhDtGnsrYeENXKiSbi53kuOu8TGi@dpg-cjt4sethtt0c73fsip8g-a.oregon-postgres.render.com/stock_db_h2ep")
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
