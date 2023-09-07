@@ -5,7 +5,7 @@ dj-database-url==2.1.0
 Django==3.2.21
 django-chartjs==2.3.0
 django-crispy-forms==2.0
-fonttools==4.42.1
+fonttools==4.38.0
 gunicorn==21.2.0
 kiwisolver==1.4.5
 matplotlib==3.7.2
